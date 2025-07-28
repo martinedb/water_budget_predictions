@@ -86,94 +86,112 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Water Budget Predictions for Wetland Engineering in Beaverlodge, Alberta</h1>
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
-<p>This repository contains Python scripts for estimating water budgets essential to wetland engineering, focusing on the hydrological processes of snowmelt, precipitation, and evapotranspiration. The analysis leverages high-quality Government of Canada climate data from Beaverlodge, Alberta—specifically total snow and total precipitation records—to inform and validate the calculations. Understanding these components is critical for the design, restoration, and management of engineered wetlands, as accurate water budgeting dictates wetland viability, habitat conditions, and flood mitigation.</p>
-<hr>
+<p>This repository contains Python scripts for forecasting key water budget components using time series analysis. The project focuses on predicting snowmelt, precipitation, and evapotranspiration using the Prophet forecasting library, which is particularly effective for time series data with strong seasonal patterns.</p>
 </section>
-<section id="snowmelt-estimates" class="level2">
-<h2 class="anchored" data-anchor-id="snowmelt-estimates">1. Snowmelt Estimates</h2>
-<section id="file-snowmelt_estimates.py" class="level3">
-<h3 class="anchored" data-anchor-id="file-snowmelt_estimates.py">File: <code>snowmelt_estimates.py</code></h3>
-<p><strong>Purpose:</strong><br>
-Calculates the amount of water entering the wetland system via snowmelt. The script converts recorded snowfall to its water equivalent and models seasonal melt dynamics, which is crucial for predicting spring inflows and annual catchment water yield.</p>
-<p><strong>Process:</strong> - <strong>Data Import:</strong> Reads Beaverlodge snow data (CSV or Excel) from Government of Canada sources. - <strong>Conversion:</strong> Transforms snowfall (cm) to water equivalent (mm) using empirically derived density ratios. - <strong>Modeling:</strong> Simulates snowpack accumulation and melt periods, employing temperature and degree-day methods to estimate timing and volume of runoff. - <strong>Output:</strong> Monthly and annual snowmelt values, which become vital inputs to the wetland water budget.</p>
-<p><strong>Sample Usage:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> snowmelt_estimates <span class="im">import</span> estimate_snowmelt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'beaverlodge_snow.csv'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>snowmelt_mm <span class="op">=</span> estimate_snowmelt(data)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(snowmelt_mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
-</section>
-<section id="evapotranspiration-and-precipitation" class="level2">
-<h2 class="anchored" data-anchor-id="evapotranspiration-and-precipitation">2. Evapotranspiration and Precipitation</h2>
-<section id="files-evapotranspiration.py-precipitation.py" class="level3">
-<h3 class="anchored" data-anchor-id="files-evapotranspiration.py-precipitation.py">Files: <code>evapotranspiration.py</code> &amp; <code>precipitation.py</code></h3>
-<p><strong>Purpose:</strong><br>
-These scripts quantify the main water fluxes: - <strong>Evapotranspiration:</strong> Represents water lost from the wetland surface and vegetation, a key factor in water balance and wetland sustainability. - <strong>Precipitation:</strong> Includes both rainfall and snowmelt contributions, measured directly from Beaverlodge climate records.</p>
-<p><strong>Process:</strong> - <strong>Evapotranspiration Calculation:</strong> Uses climate variables (temperature, solar radiation, humidity, wind speed) and established formulas (e.g., Penman-Monteith) to estimate monthly/annual ET rates. - <strong>Precipitation Analysis:</strong> Extracts and processes total precipitation values, enabling direct comparison with modeled snowmelt and ET. - <strong>Integration:</strong> These scripts work together to provide a comprehensive assessment of water inputs and losses, supporting engineering decisions for wetland design.</p>
-<p><strong>Sample Usage:</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evapotranspiration <span class="im">import</span> estimate_et</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> precipitation <span class="im">import</span> get_precipitation</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>climate <span class="op">=</span> pd.read_csv(<span class="st">'beaverlodge_climate.csv'</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>et_mm <span class="op">=</span> estimate_et(climate)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>precip_mm <span class="op">=</span> get_precipitation(climate)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Evapotranspiration: </span><span class="sc">{</span>et_mm<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Precipitation: </span><span class="sc">{</span>precip_mm<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
-</section>
-<section id="how-these-components-connect" class="level2">
-<h2 class="anchored" data-anchor-id="how-these-components-connect">3. How These Components Connect</h2>
-<p>The water budget for an engineered wetland can be summarized as:</p>
-<pre><code>Water In (Precipitation + Snowmelt) - Water Out (Evapotranspiration) = Net Water Availability</code></pre>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Snowmelt Estimates</strong> provide critical spring and annual inflows.</li>
-<li><strong>Precipitation Analysis</strong> quantifies direct inputs across seasons.</li>
-<li><strong>Evapotranspiration Modelling</strong> assesses losses that must be compensated for wetland sustainability.</li>
-</ul>
-<p>Collectively, these scripts enable engineers and scientists to: - Predict water availability and variability. - Design wetlands with sufficient retention and resilience. - Support habitat creation and flood management using robust, site-specific data.</p>
-<hr>
-</section>
-<section id="data-source-and-integration" class="level2">
-<h2 class="anchored" data-anchor-id="data-source-and-integration">4. Data Source and Integration</h2>
+<li>Python 3.7+</li>
+<li>Required Python packages:
 <ul>
-<li><strong>Government of Canada climate data</strong> for Beaverlodge, Alberta is used for snow and precipitation inputs.</li>
-<li>Scripts are tailored to read official CSV/Excel formats, ensuring data integrity and ease of use.</li>
-<li>Outputs are suitable for further hydrological modeling, wetland design, and environmental impact assessment.</li>
+<li>pandas</li>
+<li>prophet</li>
+<li>matplotlib</li>
+<li>openpyxl (for Excel file handling)</li>
+</ul></li>
 </ul>
-<hr>
 </section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">5. Getting Started</h2>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
 <ol type="1">
-<li><p><strong>Install dependencies:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas numpy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Download Beaverlodge climate data</strong> from the Government of Canada and place files in the project directory.</p></li>
-<li><p><strong>Run each script</strong> as demonstrated above to generate water budget components.</p></li>
+<li><p>Clone this repository:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="pp">[</span><span class="ss">your</span><span class="pp">-</span><span class="ss">repository</span><span class="pp">-</span><span class="ss">url</span><span class="pp">]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> water_budget_predictions-main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Install the required packages:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas prophet matplotlib openpyxl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
-<hr>
 </section>
-<section id="relevance-to-wetland-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="relevance-to-wetland-engineering">6. Relevance to Wetland Engineering</h2>
-<p>Accurate water budget predictions are crucial for: - <strong>Sizing and siting wetlands</strong> - <strong>Ensuring year-round water availability</strong> - <strong>Managing flood and drought risk</strong> - <strong>Supporting biodiversity targets and ecological function</strong></p>
-<p>These scripts provide the quantitative foundation for these engineering decisions.</p>
-<hr>
-</section>
-<section id="license-attribution" class="level2">
-<h2 class="anchored" data-anchor-id="license-attribution">7. License &amp; Attribution</h2>
+<section id="project-structure" class="level2">
+<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
 <ul>
-<li>Data © Government of Canada</li>
-<li>Scripts © [Your Name or Organization], MIT License</li>
+<li><code>snowmelt_estimates.py</code> - Forecasts snowmelt volumes</li>
+<li><code>evapotranspiration_and_precipitation estimates.py</code> - Forecasts ET and precipitation</li>
+<li><code>Input Data for Water Budget Predictions.xlsm</code> - Input data file (not included in repository)</li>
+<li><code>Monthly_Snowmelt_Predictions.xlsx</code> - Generated snowmelt forecasts</li>
+<li><code>Monthly_ET_and_Precip_Predictions.xlsx</code> - Generated ET and precipitation forecasts</li>
 </ul>
-<hr>
 </section>
-<section id="questions-collaboration" class="level2">
-<h2 class="anchored" data-anchor-id="questions-collaboration">8. Questions &amp; Collaboration</h2>
-<p>Please open an issue or pull request for support, improvements, or collaborative research.</p>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<section id="snowmelt-forecasting" class="level3">
+<h3 class="anchored" data-anchor-id="snowmelt-forecasting">1. Snowmelt Forecasting</h3>
+<p><strong>File:</strong> <code>snowmelt_estimates.py</code></p>
+<p><strong>Purpose:</strong><br>
+Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook’s Prophet time series forecasting model.</p>
+<p><strong>Input Data:</strong> - Excel file: <code>Input Data for Water Budget Predictions.xlsm</code> - Sheet name: ‘Snowmelt’ - Required columns: - ‘Month-Year’: Date in YYYY-MM or MMM-YYYY format - ‘Sum of Volumetric Snowmelt Per Month (m^3/month)’: Numeric values</p>
+<p><strong>Output:</strong> - Excel file: <code>Monthly_Snowmelt_Predictions.xlsx</code> - Graph: <code>snowmelt_forecast.png</code> (placeholder)</p>
+<p><strong>Example Output Graph:</strong> <!-- INSERT SNOWMELT_FORECAST.PNG HERE --> <img src="./images/snowmelt_forecast.png" class="img-fluid" alt="Snowmelt Forecast"></p>
+</section>
+<section id="evapotranspiration-and-precipitation-forecasting" class="level3">
+<h3 class="anchored" data-anchor-id="evapotranspiration-and-precipitation-forecasting">2. Evapotranspiration and Precipitation Forecasting</h3>
+<p><strong>File:</strong> <code>evapotranspiration_and_precipitation estimates.py</code></p>
+<p><strong>Purpose:</strong><br>
+Generates separate long-term forecasts for evapotranspiration (ET) and precipitation using Prophet.</p>
+<p><strong>Input Data:</strong> - Excel file: <code>Input Data for Water Budget Predictions.xlsm</code> - Sheet name: ‘ET_and_Precip’ - Required columns: - ‘Month-Year’: Date in YYYY-MM or MMM-YYYY format - ‘Monthly Evapotranspiration Estimates (ET) (mm)’ - ‘Monthly Precipitation Estimates (mm)’</p>
+<p><strong>Output:</strong> - Excel file: <code>Monthly_ET_and_Precip_Predictions.xlsx</code> - Graph 1: <code>et_forecast.png</code> (placeholder) - Graph 2: <code>precip_forecast.png</code> (placeholder)</p>
+<p><strong>Example Output Graphs:</strong> <!-- INSERT ET_FORECAST.PNG HERE --> <img src="./images/et_forecast.png" class="img-fluid" alt="ET Forecast"></p>
+<!-- INSERT PRECIP_FORECAST.PNG HERE -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/precip_forecast.png" class="img-fluid figure-img"></p>
+<figcaption>Precipitation Forecast</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="how-it-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-it-works">How It Works</h2>
+<p>Both scripts use Facebook’s Prophet library, which is designed for forecasting time series data with daily observations that display patterns on different time scales (yearly, weekly, etc.). The models:</p>
+<ol type="1">
+<li>Automatically detect changepoints in the time series</li>
+<li>Handle missing data and outliers</li>
+<li>Provide uncertainty intervals</li>
+<li>Include built-in cross-validation</li>
+</ol>
+</section>
+<section id="customization" class="level2">
+<h2 class="anchored" data-anchor-id="customization">Customization</h2>
+<p>You can modify these parameters in the scripts: - <code>months_to_predict</code>: Number of months to forecast into the future (default: 400) - Input/output file paths - Plot styling and figure sizes</p>
+</section>
+<section id="dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="dependencies">Dependencies</h2>
+<ul>
+<li>pandas &gt;= 1.3.0</li>
+<li>prophet &gt;= 1.0.0</li>
+<li>matplotlib &gt;= 3.4.0</li>
+<li>openpyxl &gt;= 3.0.0</li>
+</ul>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>[Specify your license here, e.g., MIT, GPL, etc.]</p>
+</section>
+<section id="contributing" class="level2">
+<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
+<p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
+</section>
+<section id="contact" class="level2">
+<h2 class="anchored" data-anchor-id="contact">Contact</h2>
+<p>[Your Name/Organization]<br>
+[Your Email]<br>
+[Project URL]</p>
+</section>
+<section id="acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<ul>
+<li>Facebook’s Prophet team for the forecasting library</li>
+<li>Environment Canada for climate data</li>
+</ul>
 </section>
 </section>
 

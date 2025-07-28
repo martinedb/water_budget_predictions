@@ -2,119 +2,130 @@
 
 ## Project Overview
 
-This repository contains Python scripts for estimating water budgets essential to wetland engineering, focusing on the hydrological processes of snowmelt, precipitation, and evapotranspiration. The analysis leverages high-quality Government of Canada climate data from Beaverlodge, Alberta—specifically total snow and total precipitation records—to inform and validate the calculations. Understanding these components is critical for the design, restoration, and management of engineered wetlands, as accurate water budgeting dictates wetland viability, habitat conditions, and flood mitigation.
+This repository contains Python scripts for forecasting key water budget components using time series analysis. The project focuses on predicting snowmelt, precipitation, and evapotranspiration using the Prophet forecasting library, which is particularly effective for time series data with strong seasonal patterns.
 
----
+The analysis uses climate data from Government of Canada climate data for Beaverlodge, Alberta. Specifically, the total snow and total precipitation records, to inform and validate the calculations. Understanding these components is critical for the design, restoration, and management of engineered wetlands, as accurate water budgeting dictates wetland viability, habitat conditions, and flood mitigation.
 
-## 1. Snowmelt Estimates
+## Prerequisites
 
-### File: `snowmelt_estimates.py`
+- Python 3.7+
+- Required Python packages:
+  - pandas
+  - prophet
+  - matplotlib
+  - openpyxl (for Excel file handling)
 
-**Purpose:**  
-Calculates the amount of water entering the wetland system via snowmelt. The script converts recorded snowfall to its water equivalent and models seasonal melt dynamics, which is crucial for predicting spring inflows and annual catchment water yield.
+## Installation
 
-**Process:**
-- **Data Import:** Reads Beaverlodge snow data (CSV or Excel) from Government of Canada sources.
-- **Conversion:** Transforms snowfall (cm) to water equivalent (mm) using empirically derived density ratios.
-- **Modeling:** Simulates snowpack accumulation and melt periods, employing temperature and degree-day methods to estimate timing and volume of runoff.
-- **Output:** Monthly and annual snowmelt values, which become vital inputs to the wetland water budget.
-
-**Sample Usage:**
-```python
-import pandas as pd
-from snowmelt_estimates import estimate_snowmelt
-
-data = pd.read_csv('beaverlodge_snow.csv')
-snowmelt_mm = estimate_snowmelt(data)
-print(snowmelt_mm)
-```
-
----
-
-## 2. Evapotranspiration and Precipitation
-
-### Files: `evapotranspiration.py` & `precipitation.py`
-
-**Purpose:**  
-These scripts quantify the main water fluxes:
-- **Evapotranspiration:** Represents water lost from the wetland surface and vegetation, a key factor in water balance and wetland sustainability.
-- **Precipitation:** Includes both rainfall and snowmelt contributions, measured directly from Beaverlodge climate records.
-
-**Process:**
-- **Evapotranspiration Calculation:** Uses climate variables (temperature, solar radiation, humidity, wind speed) and established formulas (e.g., Penman-Monteith) to estimate monthly/annual ET rates.
-- **Precipitation Analysis:** Extracts and processes total precipitation values, enabling direct comparison with modeled snowmelt and ET.
-- **Integration:** These scripts work together to provide a comprehensive assessment of water inputs and losses, supporting engineering decisions for wetland design.
-
-**Sample Usage:**
-```python
-from evapotranspiration import estimate_et
-from precipitation import get_precipitation
-
-climate = pd.read_csv('beaverlodge_climate.csv')
-et_mm = estimate_et(climate)
-precip_mm = get_precipitation(climate)
-
-print(f"Evapotranspiration: {et_mm}")
-print(f"Precipitation: {precip_mm}")
-```
-
----
-
-## 3. How These Components Connect
-
-The water budget for an engineered wetland can be summarized as:
-```
-Water In (Precipitation + Snowmelt) - Water Out (Evapotranspiration) = Net Water Availability
-```
-- **Snowmelt Estimates** provide critical spring and annual inflows.
-- **Precipitation Analysis** quantifies direct inputs across seasons.
-- **Evapotranspiration Modelling** assesses losses that must be compensated for wetland sustainability.
-
-Collectively, these scripts enable engineers and scientists to:
-- Predict water availability and variability.
-- Design wetlands with sufficient retention and resilience.
-- Support habitat creation and flood management using robust, site-specific data.
-
----
-
-## 4. Data Source and Integration
-
-- **Government of Canada climate data** for Beaverlodge, Alberta is used for snow and precipitation inputs.
-- Scripts are tailored to read official CSV/Excel formats, ensuring data integrity and ease of use.
-- Outputs are suitable for further hydrological modeling, wetland design, and environmental impact assessment.
-
----
-
-## 5. Getting Started
-
-1. **Install dependencies:**  
+1. Clone this repository:
    ```bash
-   pip install pandas numpy
+   git clone [your-repository-url]
+   cd water_budget_predictions-main
    ```
-2. **Download Beaverlodge climate data** from the Government of Canada and place files in the project directory.
-3. **Run each script** as demonstrated above to generate water budget components.
 
----
+2. Install the required packages:
+   ```bash
+   pip install pandas prophet matplotlib openpyxl
+   ```
 
-## 6. Relevance to Wetland Engineering
+NOTE: You can run the files in this repository using platforms such as Visual Studio Code, GitHub CodeSpaces, and Google Colab
+## Project Structure
 
-Accurate water budget predictions are crucial for:
-- **Sizing and siting wetlands**
-- **Ensuring year-round water availability**
-- **Managing flood and drought risk**
-- **Supporting biodiversity targets and ecological function**
+- `snowmelt_estimates.py` - Forecasts snowmelt volumes over long-term periods.
+- `evapotranspiration_and_precipitation estimates.py` - Forecasts evapotranspiration (ET) and precipitation over long-term periods
+- `Input Data for Water Budget Predictions.xlsm` - Input data file (not included in repository)
+- `Monthly_Snowmelt_Predictions.xlsx` - Generated snowmelt forecasts
+- `Monthly_ET_and_Precip_Predictions.xlsx` - Generated ET and precipitation forecasts
 
-These scripts provide the quantitative foundation for these engineering decisions.
+## Usage
 
----
+### 1. Snowmelt Forecasting
 
-## 7. License & Attribution
+**File:** `snowmelt_estimates.py`
 
-- Data © Government of Canada
-- Scripts © [Your Name or Organization], MIT License
+**Purpose:**  
+Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook's Prophet time series forecasting model.
 
----
+**Input Data:**
+- Excel file: `Input Data for Water Budget Predictions.xlsm`
+- Sheet name: 'Snowmelt'
+- Required columns:
+  - 'Month-Year': Date in YYYY-MM or MMM-YYYY format
+  - 'Sum of Volumetric Snowmelt Per Month (m^3/month)': Numeric values
 
-## 8. Questions & Collaboration
+**Output:**
+- Excel file: `Monthly_Snowmelt_Predictions.xlsx`
+- Graph: `snowmelt_forecast.png` (placeholder)
 
-Please open an issue or pull request for support, improvements, or collaborative research.
+**Example Output Graph:**
+<!-- INSERT SNOWMELT_FORECAST.PNG HERE -->
+![Snowmelt Forecast](images/snowmelt-estimates-graph.png)
+
+### 2. Evapotranspiration and Precipitation Forecasting
+
+**File:** `evapotranspiration_and_precipitation estimates.py`
+
+**Purpose:**  
+Generates separate long-term forecasts for evapotranspiration (ET) and precipitation using Prophet.
+
+**Input Data:**
+- Excel file: `Input Data for Water Budget Predictions.xlsm`
+- Sheet name: 'ET_and_Precip'
+- Required columns:
+  - 'Month-Year': Date in YYYY-MM or MMM-YYYY format
+  - 'Monthly Evapotranspiration Estimates (ET) (mm)'
+  - 'Monthly Precipitation Estimates (mm)'
+
+**Output:**
+- Excel file: `Monthly_ET_and_Precip_Predictions.xlsx`
+- Graph 1: `et_forecast.png` (placeholder)
+- Graph 2: `precip_forecast.png` (placeholder)
+
+**Example Output Graphs:**
+<!-- INSERT ET_FORECAST.PNG HERE -->
+![ET Forecast](images/evapotranspiration-graph-example.png)
+
+<!-- INSERT PRECIP_FORECAST.PNG HERE -->
+![Precipitation Forecast](images/precipitation-graph-example.png)
+
+## How It Works
+
+Both scripts use Facebook's Prophet library, which is designed for forecasting time series data with daily observations that display patterns on different time scales (yearly, weekly, etc.). The models:
+
+1. Automatically detect changepoints in the time series
+2. Handle missing data and outliers
+3. Provide uncertainty intervals
+4. Include built-in cross-validation
+
+## Customization
+
+You can modify these parameters in the scripts:
+- `months_to_predict`: Number of months to forecast into the future (default: 400)
+- Input/output file paths
+- Plot styling and figure sizes
+
+## Dependencies
+
+- pandas >= 1.3.0
+- prophet >= 1.0.0
+- matplotlib >= 3.4.0
+- openpyxl >= 3.0.0
+
+## License
+
+[Specify your license here, e.g., MIT, GPL, etc.]
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Contact
+
+[Your Name/Organization]  
+[Your Email]  
+[Project URL]
+
+## Acknowledgments
+
+- Facebook's Prophet team for the forecasting library
+- Environment Canada for climate data
