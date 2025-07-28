@@ -87,6 +87,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="project-overview" class="level2">
 <h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
 <p>This repository contains Python scripts for forecasting key water budget components using time series analysis. The project focuses on predicting snowmelt, precipitation, and evapotranspiration using the Prophet forecasting library, which is particularly effective for time series data with strong seasonal patterns.</p>
+<p>The analysis uses climate data from Government of Canada climate data for Beaverlodge, Alberta. Specifically, the total snow and total precipitation records, to inform and validate the calculations. Understanding these components is critical for the design, restoration, and management of engineered wetlands, as accurate water budgeting dictates wetland viability, habitat conditions, and flood mitigation.</p>
 </section>
 <section id="prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
@@ -110,12 +111,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Install the required packages:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas prophet matplotlib openpyxl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
-</section>
-<section id="project-structure" class="level2">
-<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
+<p>NOTE: You can run the files in this repository using platforms such as Visual Studio Code, GitHub CodeSpaces, and Google Colab ## Project Structure</p>
 <ul>
-<li><code>snowmelt_estimates.py</code> - Forecasts snowmelt volumes</li>
-<li><code>evapotranspiration_and_precipitation estimates.py</code> - Forecasts ET and precipitation</li>
+<li><code>snowmelt_estimates.py</code> - Forecasts snowmelt volumes over long-term periods.</li>
+<li><code>evapotranspiration_and_precipitation estimates.py</code> - Forecasts evapotranspiration (ET) and precipitation over long-term periods</li>
 <li><code>Input Data for Water Budget Predictions.xlsm</code> - Input data file (not included in repository)</li>
 <li><code>Monthly_Snowmelt_Predictions.xlsx</code> - Generated snowmelt forecasts</li>
 <li><code>Monthly_ET_and_Precip_Predictions.xlsx</code> - Generated ET and precipitation forecasts</li>
@@ -130,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook’s Prophet time series forecasting model.</p>
 <p><strong>Input Data:</strong> - Excel file: <code>Input Data for Water Budget Predictions.xlsm</code> - Sheet name: ‘Snowmelt’ - Required columns: - ‘Month-Year’: Date in YYYY-MM or MMM-YYYY format - ‘Sum of Volumetric Snowmelt Per Month (m^3/month)’: Numeric values</p>
 <p><strong>Output:</strong> - Excel file: <code>Monthly_Snowmelt_Predictions.xlsx</code> - Graph: <code>snowmelt_forecast.png</code> (placeholder)</p>
-<p><strong>Example Output Graph:</strong> <!-- INSERT SNOWMELT_FORECAST.PNG HERE --> <img src="./images/snowmelt_forecast.png" class="img-fluid" alt="Snowmelt Forecast"></p>
+<p><strong>Example Output Graph:</strong> <!-- INSERT SNOWMELT_FORECAST.PNG HERE --> <img src="images/snowmelt-estimates-graph.png" class="img-fluid" alt="Snowmelt Forecast"></p>
 </section>
 <section id="evapotranspiration-and-precipitation-forecasting" class="level3">
 <h3 class="anchored" data-anchor-id="evapotranspiration-and-precipitation-forecasting">2. Evapotranspiration and Precipitation Forecasting</h3>
@@ -139,11 +138,11 @@ Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook�
 Generates separate long-term forecasts for evapotranspiration (ET) and precipitation using Prophet.</p>
 <p><strong>Input Data:</strong> - Excel file: <code>Input Data for Water Budget Predictions.xlsm</code> - Sheet name: ‘ET_and_Precip’ - Required columns: - ‘Month-Year’: Date in YYYY-MM or MMM-YYYY format - ‘Monthly Evapotranspiration Estimates (ET) (mm)’ - ‘Monthly Precipitation Estimates (mm)’</p>
 <p><strong>Output:</strong> - Excel file: <code>Monthly_ET_and_Precip_Predictions.xlsx</code> - Graph 1: <code>et_forecast.png</code> (placeholder) - Graph 2: <code>precip_forecast.png</code> (placeholder)</p>
-<p><strong>Example Output Graphs:</strong> <!-- INSERT ET_FORECAST.PNG HERE --> <img src="./images/et_forecast.png" class="img-fluid" alt="ET Forecast"></p>
+<p><strong>Example Output Graphs:</strong> <!-- INSERT ET_FORECAST.PNG HERE --> <img src="images/evapotranspiration-graph-example.png" class="img-fluid" alt="ET Forecast"></p>
 <!-- INSERT PRECIP_FORECAST.PNG HERE -->
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/precip_forecast.png" class="img-fluid figure-img"></p>
+<p><img src="images/precipitation-graph-example.png" class="img-fluid figure-img"></p>
 <figcaption>Precipitation Forecast</figcaption>
 </figure>
 </div>
@@ -174,24 +173,11 @@ Generates separate long-term forecasts for evapotranspiration (ET) and precipita
 </section>
 <section id="license" class="level2">
 <h2 class="anchored" data-anchor-id="license">License</h2>
-<p>[Specify your license here, e.g., MIT, GPL, etc.]</p>
+<p>Please read the MIT License before using this repository.</p>
 </section>
 <section id="contributing" class="level2">
 <h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
 <p>Contributions are welcome! Please feel free to submit a Pull Request.</p>
-</section>
-<section id="contact" class="level2">
-<h2 class="anchored" data-anchor-id="contact">Contact</h2>
-<p>[Your Name/Organization]<br>
-[Your Email]<br>
-[Project URL]</p>
-</section>
-<section id="acknowledgments" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
-<ul>
-<li>Facebook’s Prophet team for the forecasting library</li>
-<li>Environment Canada for climate data</li>
-</ul>
 </section>
 </section>
 

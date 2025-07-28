@@ -1,4 +1,4 @@
-# Water Budget Predictions for Wetland Engineering in Beaverlodge, Alberta
+# Water Budget Predictions 
 
 ## Project Overview
 
@@ -29,6 +29,7 @@ The analysis uses climate data from Government of Canada climate data for Beaver
    ```
 
 NOTE: You can run the files in this repository using platforms such as Visual Studio Code, GitHub CodeSpaces, and Google Colab
+
 ## Project Structure
 
 - `snowmelt_estimates.py` - Forecasts snowmelt volumes over long-term periods.
@@ -37,6 +38,7 @@ NOTE: You can run the files in this repository using platforms such as Visual St
 - `Monthly_Snowmelt_Predictions.xlsx` - Generated snowmelt forecasts
 - `Monthly_ET_and_Precip_Predictions.xlsx` - Generated ET and precipitation forecasts
 
+
 ## Usage
 
 ### 1. Snowmelt Forecasting
@@ -44,9 +46,12 @@ NOTE: You can run the files in this repository using platforms such as Visual St
 **File:** `snowmelt_estimates.py`
 
 **Purpose:**  
-Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook's Prophet time series forecasting model.
+Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook's Prophet time series forecasting model. The script converts recorded snowfall to its water equivalent and models seasonal melt dynamics, which is crucial for predicting spring inflows and annual catchment water yield.
+
+The script simulates snowpack accumulation and melt periods while employing temperature and degre-day methods to estimate snowmelt volumes.
 
 **Input Data:**
+
 - Excel file: `Input Data for Water Budget Predictions.xlsm`
 - Sheet name: 'Snowmelt'
 - Required columns:
@@ -54,6 +59,7 @@ Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook'
   - 'Sum of Volumetric Snowmelt Per Month (m^3/month)': Numeric values
 
 **Output:**
+
 - Excel file: `Monthly_Snowmelt_Predictions.xlsx`
 - Graph: `snowmelt_forecast.png` (placeholder)
 
@@ -66,9 +72,12 @@ Generates long-term forecasts of snowmelt volumes (in m³/month) using Facebook'
 **File:** `evapotranspiration_and_precipitation estimates.py`
 
 **Purpose:**  
-Generates separate long-term forecasts for evapotranspiration (ET) and precipitation using Prophet.
+Generates separate long-term forecasts for evapotranspiration (ET) and precipitation using Prophet. 
+
+Evapotranspiration represents water lost from the wetland surface and vegetation, a key factor in the water balance. Precipitation includes both rainfall and snowmelt contributions.
 
 **Input Data:**
+
 - Excel file: `Input Data for Water Budget Predictions.xlsm`
 - Sheet name: 'ET_and_Precip'
 - Required columns:
@@ -77,6 +86,7 @@ Generates separate long-term forecasts for evapotranspiration (ET) and precipita
   - 'Monthly Precipitation Estimates (mm)'
 
 **Output:**
+
 - Excel file: `Monthly_ET_and_Precip_Predictions.xlsx`
 - Graph 1: `et_forecast.png` (placeholder)
 - Graph 2: `precip_forecast.png` (placeholder)
@@ -97,6 +107,8 @@ Both scripts use Facebook's Prophet library, which is designed for forecasting t
 3. Provide uncertainty intervals
 4. Include built-in cross-validation
 
+These scripts enable engineers and scientists working on wetland design to predict water variability and availability and design wetlands with sufficient retention and resilience.
+
 ## Customization
 
 You can modify these parameters in the scripts:
@@ -113,19 +125,8 @@ You can modify these parameters in the scripts:
 
 ## License
 
-[Specify your license here, e.g., MIT, GPL, etc.]
+Please read the MIT License before using this repository.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Contact
-
-[Your Name/Organization]  
-[Your Email]  
-[Project URL]
-
-## Acknowledgments
-
-- Facebook's Prophet team for the forecasting library
-- Environment Canada for climate data
